@@ -5,6 +5,9 @@
   "main": "index.js",
   "author": "Dobes Vandermeer",
   "license": "MIT",
+  "peerDependencies": {
+    "parcel-bundler": "^1.7.0"
+  },
   "devDependencies": {
     "parcel-bundler": "^1.7.0"
   }
