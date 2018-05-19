@@ -1,9 +1,8 @@
 const Asset = require('parcel-bundler/src/Asset');
 const urlJoin = require('parcel-bundler/src/utils/urlJoin');
 const isURL = require('parcel-bundler/src/utils/is-url');
-const logger = require('parcel-bundler/src/Logger');
 
-class AssetListAsset extends Asset {
+class UrlsAsset extends Asset {
     constructor(name, pkg, options) {
         super(name, pkg, options);
         this.type = 'json';
@@ -46,4 +45,4 @@ class AssetListAsset extends Asset {
     }
 }
 
-module.exports = AssetListAsset;
+module.exports = UrlsAsset;
