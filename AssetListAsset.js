@@ -1,4 +1,6 @@
 const Asset = require('parcel-bundler/src/Asset');
+const urlJoin = require('parcel-bundler/src/utils/urlJoin');
+const isURL = require('parcel-bundler/src/utils/is-url');
 const logger = require('parcel-bundler/src/Logger');
 
 class AssetListAsset extends Asset {
@@ -8,7 +10,14 @@ class AssetListAsset extends Asset {
     }
 
     collectDependencies() {
-        Object.keys(this.ast).forEach(path => this.ast[path] = this.addURLDependency(this.ast[path]));
+        const resolveAsset = path => {
+            const assetPath = this.addURLDependency(this.ast[path]);
+            if (!isURL(assetPath)) {
+              return urlJoin(this.options.publicURL, assetPath);
+            }
+            return assetPath;
+        };
+        Object.keys(this.ast).forEach(path => this.ast[path] = resolveAsset(this.ast[path]));
     }
 
     parse(code) {

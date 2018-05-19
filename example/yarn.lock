@@ -2995,8 +2995,8 @@ parcel-bundler@^1.8.1:
     v8-compile-cache "^2.0.0"
     ws "^5.1.1"
 
-"parcel-plugin-assets-list@file:../../parcel-plugin-assets-list":
-  version "1.0.0"
+"parcel-plugin-assets-list@file:..":
+  version "1.0.1"
 
 parse-asn1@^5.0.0:
   version "5.1.1"

@@ -37,5 +37,11 @@ files from the original name to the new name in a few ways:
   path, a colon, a space (`:`) and the output path.  Could be used
   instead of JSON if you like.
 
-The actual filename depends on the input file name.
+The actual files written depends on the input file name.  If the assets
+file was referenced from another file rather than passed on the command
+line it'll have a hashed name like any other asset.
+
+Note that if you pass `--public-url` that URL will be added to the
+resolved asset URLs.
+
 
