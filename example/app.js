@@ -1,3 +1,3 @@
-import urls from './example.urls';
+import { someTemplateUrl } from './example.urls';
 
-console.log({templateUrl: urls['some_template.html']});
+console.log({someTemplateUrl});

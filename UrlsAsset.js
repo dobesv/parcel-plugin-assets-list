@@ -3,14 +3,15 @@ const urlJoin = require('parcel-bundler/src/utils/urlJoin');
 const isURL = require('parcel-bundler/src/utils/is-url');
 
 class UrlsAsset extends Asset {
-    constructor(name, pkg, options) {
-        super(name, pkg, options);
+    constructor(...args) {
+        super(...args);
         this.type = 'json';
     }
 
     collectDependencies() {
-        const resolveAsset = path => {
-            const assetPath = this.addURLDependency(this.ast[path]);
+        const resolveAsset = originalPath => {
+            const assetPath = this.addURLDependency(originalPath);
+            if(!assetPath) throw new Error(`Cannot resolve dependency '${originalPath}'`);
             if (!isURL(assetPath)) {
               return urlJoin(this.options.publicURL, assetPath);
             }
@@ -21,7 +22,15 @@ class UrlsAsset extends Asset {
 
     parse(code) {
         const mapping = {};
-        code.split('\n').map(p => p.replace(/#.*/, '')).map(s => s.trim()).filter(Boolean).forEach(path => mapping[path] = path);
+        code.split('\n').map(p => p.replace(/#.*/, '')).map(s => s.trim()).forEach(
+            line => {
+                const parts = line.split(/\s*:\s*/);
+                const key = parts[0].trim();
+                const path = (parts[1] || parts[0]).trim();
+                if(key && path)
+                    mapping[key] = path
+            }
+        );
         return mapping;
     }
 
@@ -37,7 +46,7 @@ class UrlsAsset extends Asset {
                 value: `module.exports = ${JSON.stringify(this.ast, null, 1)}`,
             },
             {
-                type: 'assets',
+                type: 'urls',
                 value: Object.keys(this.ast).map(path => `${path}: ${this.ast[path]}\n`).join(''),
                 final: true,
             }

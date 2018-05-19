@@ -2,3 +2,4 @@
 ./test.scss
 ./whatever.txt
 ./more.urls
+someTemplateUrl: some_template.html

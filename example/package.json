@@ -9,6 +9,6 @@
     "parcel-plugin-assets-list": "file:../../parcel-plugin-assets-list"
   },
   "scripts": {
-    "build": "rm dist/* ; parcel build index.html example.urls"
+    "build": "rm -f dist/* ; parcel build index.html example.urls"
   }
 }

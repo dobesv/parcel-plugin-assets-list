@@ -41,6 +41,21 @@ JavaScript module, e.g.
     import urls from './assets.urls'
     const templateUrl = urls['templates/a.html']
 
+## Custom keys
+
+By default the key in the generated mapping is the filename listed
+in the file.  However, you can specify a specific key using a
+`<key>: <path>` format in the source file, e.g.
+
+    # assets.urls
+    templateUrl: templates/a.html
+
+This makes importing the asset paths from JavaScript much more
+convenient:
+
+    # component.js
+    import { templateUrl } from 'assets.urls';
+
 ## Asset Processing
 
 Note that the target assets are compiled by Parcel, so `.scss` files
