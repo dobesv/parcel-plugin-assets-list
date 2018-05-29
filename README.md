@@ -62,6 +62,18 @@ Note that the target assets are compiled by Parcel, so `.scss` files
 will reference `.css` afterwards, `.json` files will end up references
 a `.js` file, and so on.
 
+## Asset Bundling
+
+Note that if you import a `.urls` file in JavaScript, parcel may
+"package" the generated JavaScript module AND the generated urls and
+json files into one file.  Instead of a set of files per input `urls`
+file you get a single urls and json file output with a hash in the name
+with everything merged into one file.
+
+Thus if you want to use the generated `json` or `urls` files you should
+reference them as entry points (on the parcel command line) or from a
+`urls` file that is an entry point.
+
 ## URL Prefix
 
 If you pass `--public-url` that URL will be prefixed to the resolved
