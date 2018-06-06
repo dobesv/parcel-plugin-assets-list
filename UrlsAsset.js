@@ -1,6 +1,8 @@
 const Asset = require('parcel-bundler/src/Asset');
-const urlJoin = require('parcel-bundler/src/utils/urlJoin');
+const Bundler = require('parcel-bundler');
+const crypto = require('crypto');
 const isURL = require('parcel-bundler/src/utils/is-url');
+const urlJoin = require('parcel-bundler/src/utils/urlJoin');
 
 class UrlsAsset extends Asset {
     constructor(...args) {
@@ -8,16 +10,17 @@ class UrlsAsset extends Asset {
         this.type = 'json';
     }
 
-    collectDependencies() {
-        const resolveAsset = originalPath => {
+    async collectDependencies() {
+        for (let key of Object.keys(this.ast)) {
+            const originalPath = this.ast[key];
             const assetPath = this.addURLDependency(originalPath);
-            if(!assetPath) throw new Error(`Cannot resolve dependency '${originalPath}'`);
+            if (!assetPath) throw new Error(`Cannot resolve dependency '${originalPath}'`);
             if (!isURL(assetPath)) {
-              return urlJoin(this.options.publicURL, assetPath);
+                this.ast[key] = urlJoin(this.options.publicURL, assetPath);
+            } else {
+                this.ast[key] = assetPath;
             }
-            return assetPath;
-        };
-        Object.keys(this.ast).forEach(path => this.ast[path] = resolveAsset(this.ast[path]));
+        }
     }
 
     parse(code) {
@@ -27,14 +30,34 @@ class UrlsAsset extends Asset {
                 const parts = line.split(/\s*:\s*/);
                 const key = parts[0].trim();
                 const path = (parts[1] || parts[0]).trim();
-                if(key && path)
+                if (key && path)
                     mapping[key] = path
             }
         );
         return mapping;
     }
 
-    generate() {
+    async generate() {
+        // Calculate a hash if necessary.
+        if (this.options.contentHash && !(this.options.entryFiles.length === 1 && this.options.entryFiles[0] === this.name)) {
+            // Run a build of the referenced assets and then look at the hashes of the build results.
+            // Kind of a nasty hack but there's no better & reliable way to determine the actual hashes of the files
+            // we depend on, and we need to put some hash of that into our output so that parcel will recognize that
+            // our file hash will be different when the final filenames are substituted into our output.
+            const options = Object.assign({}, this.options, {
+                watch: false,
+                killWorkers: false,
+                detailedReport: false,
+            });
+            const bundler = new Bundler([this.name], options);
+            await bundler.bundle();
+            const md5 = crypto.createHash('md5');
+            bundler.bundleHashes.forEach(hash => {
+                md5.update(hash);
+            });
+            this.ast[`#${this.relativeName}#`] = md5.digest('hex');
+        }
+
         return [
             {
                 type: 'json',
