@@ -1,3 +1,3 @@
-import { someTemplateUrl } from './example.urls';
+import { someTemplateUrl } from './templates.urls';
 
 console.log({someTemplateUrl});
