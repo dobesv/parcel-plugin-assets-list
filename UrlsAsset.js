@@ -51,11 +51,13 @@ class UrlsAsset extends Asset {
             });
             const bundler = new Bundler([this.name], options);
             await bundler.bundle();
-            const md5 = crypto.createHash('md5');
-            bundler.bundleHashes.forEach(hash => {
-                md5.update(hash);
-            });
-            this.ast[`#${this.relativeName}#`] = md5.digest('hex');
+            if(bundler.bundleHashes) {
+                const md5 = crypto.createHash('md5');
+                bundler.bundleHashes.forEach(hash => {
+                    md5.update(hash);
+                });
+                this.ast[`#${this.relativeName}#`] = md5.digest('hex');
+            }
         }
 
         return [
@@ -66,7 +68,7 @@ class UrlsAsset extends Asset {
             },
             {
                 type: 'js',
-                value: `module.exports = ${JSON.stringify(this.ast, null, 1)}`,
+                value: `module.exports = ${JSON.stringify(this.ast, null, 1)};`,
             },
             {
                 type: 'urls',
