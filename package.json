@@ -1,14 +1,14 @@
 {
   "name": "parcel-plugin-assets-list",
-  "version": "1.5.1",
+  "version": "1.6.0",
   "description": "Support assets list input file type",
   "main": "index.js",
   "author": "Dobes Vandermeer",
   "license": "MIT",
   "peerDependencies": {
-    "parcel-bundler": "^1.8.1"
+    "parcel-bundler": ">=1.10.3"
   },
   "devDependencies": {
-    "parcel-bundler": "1.8.1"
+    "parcel-bundler": "1.10.3"
   }
 }
