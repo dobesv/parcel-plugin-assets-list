@@ -1,3 +1,8 @@
+## 1.6.0 (2018-10-19)
+
+- Update to `parcel-bundler@1.10.3`
+- Fix an issue where workers created for hash calculation were not stopped 
+
 ## 1.5.0 (2018-06-05)
 
 Calculate and insert a hash of referenced assets into the output to
