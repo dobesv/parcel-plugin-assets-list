@@ -45,9 +45,11 @@ class UrlsAsset extends Asset {
             // we depend on, and we need to put some hash of that into our output so that parcel will recognize that
             // our file hash will be different when the final filenames are substituted into our output.
             const options = Object.assign({}, this.options, {
-                watch: false,
-                killWorkers: false,
+                autoinstall: false,
                 detailedReport: false,
+                killWorkers: true,
+                throwErrors: false,
+                watch: false,
             });
             const bundler = new Bundler([this.name], options);
             await bundler.bundle();
