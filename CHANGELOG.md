@@ -1,3 +1,14 @@
+## 1.7.0 (2018-10-20)
+
+Remove the workaround to try to ensure the hash in the filename updates
+based on changes to referenced files.  It was buggy.
+
+This means that if you using urls files that have a hash in their name,
+the filename might not update even if a filename inside the file changes.
+
+This could be considered a bug/issue in parcel itself, 
+see https://github.com/parcel-bundler/parcel/issues/1481
+
 ## 1.6.0 (2018-10-19)
 
 - Update to `parcel-bundler@1.10.3`
