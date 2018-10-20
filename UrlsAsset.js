@@ -1,6 +1,4 @@
 const Asset = require('parcel-bundler/src/Asset');
-const Bundler = require('parcel-bundler');
-const crypto = require('crypto');
 const isURL = require('parcel-bundler/src/utils/is-url');
 const urlJoin = require('parcel-bundler/src/utils/urlJoin');
 
@@ -38,30 +36,6 @@ class UrlsAsset extends Asset {
     }
 
     async generate() {
-        // Calculate a hash if necessary.
-        if (this.options.contentHash && !(this.options.entryFiles.length === 1 && this.options.entryFiles[0] === this.name)) {
-            // Run a build of the referenced assets and then look at the hashes of the build results.
-            // Kind of a nasty hack but there's no better & reliable way to determine the actual hashes of the files
-            // we depend on, and we need to put some hash of that into our output so that parcel will recognize that
-            // our file hash will be different when the final filenames are substituted into our output.
-            const options = Object.assign({}, this.options, {
-                autoinstall: false,
-                detailedReport: false,
-                killWorkers: true,
-                throwErrors: false,
-                watch: false,
-            });
-            const bundler = new Bundler([this.name], options);
-            await bundler.bundle();
-            if(bundler.bundleHashes) {
-                const md5 = crypto.createHash('md5');
-                bundler.bundleHashes.forEach(hash => {
-                    md5.update(hash);
-                });
-                this.ast[`#${this.relativeName}#`] = md5.digest('hex');
-            }
-        }
-
         return [
             {
                 type: 'json',
