@@ -84,3 +84,16 @@ asset URLs.
 The `example` folder has a sample project that shows how files
 are processed and what the output files look like.
 
+## Known Issues
+
+Due to a limitation or bug in parcel, filename hashes are not reliably
+updated when dependencies of that file are changed.
+
+A file will be updated to reference the new filenames, but its own 
+filename hash does not change.  So browser clients might have a stale 
+version of the file and not see the new changes.
+
+See https://github.com/parcel-bundler/parcel/issues/1481
+
+For this reason importing the outputs of this plugin in js files
+isn't safe if you are relying on filename hashes for cache-busting.
