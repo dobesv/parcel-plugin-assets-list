@@ -1,6 +1,6 @@
-const Asset = require('parcel-bundler/src/Asset');
-const isURL = require('parcel-bundler/src/utils/is-url');
-const urlJoin = require('parcel-bundler/src/utils/urlJoin');
+const Asset = require('parcel-bundler').Asset;
+const isURL = require('./utils/is-url');
+const urlJoin = require('./utils/urlJoin');
 
 class UrlsAsset extends Asset {
     constructor(...args) {

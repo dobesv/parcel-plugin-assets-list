@@ -1,4 +1,4 @@
-const Packager = require('parcel-bundler/src/packagers/Packager');
+const Packager = require('parcel-bundler').Packager;
 
 class JSONPackager extends Packager {
     constructor(...args) {

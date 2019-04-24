@@ -1,3 +1,10 @@
+## 1.7.1 (2019-04-24)
+
+Change the way classes are imported from `parcel-bundler` to hopefully
+work better if `parcel-bundler` is installed globally instead of locally
+in `mode_modules`.
+
+
 ## 1.7.0 (2018-10-20)
 
 Remove the workaround to try to ensure the hash in the filename updates
